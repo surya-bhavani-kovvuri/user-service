@@ -11,10 +11,10 @@ import java.util.List;
      UserResponse registerUser(RegisterUserRequest registerUserRequest);
 
      UserResponse getUserById(Long id);
-//
-//     List<UserResponse> getAllUsers();
-//
-//     UserResponse updateUser(Long id,UpdateUserRequest updateUserRequest);
-//
-//     void deleteUserById(Long id);
+
+     List<UserResponse> getAllUsers();
+
+     UserResponse updateUser(Long id, UpdateUserRequest updateUserRequest);
+
+     void deleteUserById(Long id);
 }

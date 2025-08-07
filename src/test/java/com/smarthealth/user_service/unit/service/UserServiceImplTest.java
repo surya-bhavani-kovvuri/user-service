@@ -1,11 +1,13 @@
-package com.smarthealth.user_service.service;
+package com.smarthealth.user_service.unit.service;
 
 import com.smarthealth.user_service.dto.RegisterUserRequest;
 import com.smarthealth.user_service.dto.UserResponse;
 import com.smarthealth.user_service.entity.Role;
 import com.smarthealth.user_service.entity.User;
 import com.smarthealth.user_service.exception.UserAlreadyExistsException;
+import com.smarthealth.user_service.exception.UserNotFoundException;
 import com.smarthealth.user_service.repository.UserRepository;
+import com.smarthealth.user_service.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,4 +62,34 @@ public class UserServiceImplTest {
        assertEquals("User already exists with this email :John@hotmail.com",exception.getMessage());
 
     }
+
+    @Test
+    void testGettingUserDetails_success(){
+        Long id = 1L;
+        User user = new User(1L,"Surya","surya@gmail.com","surya123",Role.DOCTOR);
+
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(user));
+
+        UserResponse userDetails = userServiceImpl.getUserById(id);
+
+        assertNotNull(userDetails);
+        assertEquals(1L,userDetails.getId());
+        assertEquals("Surya",userDetails.getName());
+        assertEquals("surya@gmail.com",userDetails.getEmail());
+        assertEquals(Role.DOCTOR,userDetails.getRole());
+
+    }
+
+    @Test
+    void testUserNotFoundException(){
+        Long id = 2L;
+
+        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        UserNotFoundException ex = assertThrows(UserNotFoundException.class,
+                () -> userServiceImpl.getUserById(id));
+
+        assertEquals("No user found for the given id: 2",ex.getMessage());
+    }
+
 }

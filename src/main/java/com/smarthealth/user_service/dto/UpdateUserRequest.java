@@ -1,6 +1,7 @@
 package com.smarthealth.user_service.dto;
 
 import com.smarthealth.user_service.entity.Role;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
